@@ -6,8 +6,7 @@ class Cell {
 
       this.cellSize = 10;
       this.margin = 20;
-      this.spacing = 5
-      ;
+      this.spacing = 5;
 
 
       this.walls = [true, true, true, true];
