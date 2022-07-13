@@ -6,6 +6,8 @@ class Cell {
 
       this.cellSize = 10;
       this.margin = 20;
+      this.spacing = 5;
+
 
       this.walls = [true, true, true, true];
     }
@@ -32,8 +34,8 @@ class Cell {
 
     draw(){
         square(
-            this.x * this.cellSize + this.margin, // y
-            this.y * this.cellSize + this.margin, // x
+            this.x * (this.cellSize + this.spacing) + this.margin, // y
+            this.y * (this.cellSize + this.spacing) + this.margin, // x
             this.cellSize // radius
             );
     }
