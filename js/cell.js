@@ -31,7 +31,7 @@ class Cell {
     }
 
     draw(){
-        ellipse(
+        square(
             this.x * this.cellSize + this.margin, // y
             this.y * this.cellSize + this.margin, // x
             this.cellSize // radius
