@@ -53,6 +53,9 @@ function connectCells(x,y,direction){
         newPair.forEach(item => { matchedSet.add(item)});
         otherSet.forEach(item => { matchedSet.add(item)});
         // maybe better to have function to get index of which set it's found in
+        // if it's in zero sets, push to array of sets
+        // if it's in one set, add to that set
+        // if it's in two sets, then merge them
       }
     })
   })
