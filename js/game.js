@@ -1,10 +1,10 @@
 // This is the game file
 
 let cells = [];
-let totalRows = 3;
-let totalCols = 4;
+let totalRows = 10;
+let totalCols = 20;
 
-const connectedCellSets = [];
+const setset = new SetSet();
 
 function union(setA, setB) {
   const _union = new Set(setA);
@@ -14,57 +14,37 @@ function union(setA, setB) {
   return _union;
 }
 
-function connectCells(x,y,direction){
-  let newPair = new Set();
-  newPair.add(x + "," + y);
+function tryConnectCells(x,y,direction){
+  let newPair = [];
+  newPair.push(x + "," + y);
   switch (direction) {
     case "N":
         if (y > 0)
-        newPair.add(x+ "," +y-1);
+        newPair.push(x+ "," +(y-1));
         break;
     case "E":
         if (x < totalCols - 1)
-        newPair.add(x+1+ "," +y);;
+        newPair.push((x+1)+ "," +y);;
         break;
     case "S":
         if (y < totalRows-1)
-        newPair.add(x,y+ "," +1);
+        newPair.push(x+ "," +(y +1));
         break;
     case "W":
         if (x > 0)
-        newPair.add(x-1+ "," +y);
+        newPair.push((x-1)+ "," +y);
         break;
 
     default:
         break;
   }
 
-  // look for either of these in an existing set
-  var found = false;
-
-  var unmatchedSets = [];
-  var matchedSet = new Set();
-
-  newPair.forEach(item => {
-    console.log(["looking for ", item])
-    connectedCellSets.forEach(otherSet => {
-      console.log(["checking ", otherSet])
-      if (otherSet.has(item)){
-        newPair.forEach(item => { matchedSet.add(item)});
-        otherSet.forEach(item => { matchedSet.add(item)});
-        // maybe better to have function to get index of which set it's found in
-        // if it's in zero sets, push to array of sets
-        // if it's in one set, add to that set
-        // if it's in two sets, then merge them
-      }
-    })
-  })
-
-  if (!found){
-    connectedCellSets.push(newPair);
+  if (newPair.length == 2){
+    return setset.add(newPair[0],newPair[1]);
+  } else {
+    return false;
   }
 
-  console.log(connectedCellSets);
 }
 
 
@@ -92,9 +72,13 @@ function setup() {
   // FINISH
   this.breakTheRightWalls(totalCols-1,totalRows-1,"S");
 
-  for (const col of Array(1000).keys()) {
-    //breakRandomWalls();
+  for (const x of Array(1000).keys()) {
+    if (setset.maxSetSize() < totalCols * totalRows){
+      breakRandomWalls();
+      console.log(["DOING setset.maxSetSize()",x, setset.maxSetSize()])
+    }
   }
+  console.log(["setset.maxSetSize()",setset.maxSetSize()])
 }
 
 function getRandomInt(max) {
@@ -106,29 +90,32 @@ function breakRandomWalls(){
   let y = this.getRandomInt(totalRows);
   let direction = this.randomItem(["N","S","E","W"]);
   
+  if (this.tryConnectCells(x,y,direction)){
 
-  
-  // don't break the edges
-  switch (direction) {
-    case "N":
-        if (y > 0)
-        this.breakTheRightWalls(x,y,direction);
-        break;
-    case "E":
-        if (x < totalCols - 1)
-        this.breakTheRightWalls(x,y,direction);
-        break;
-    case "S":
-        if (y < totalRows-1)
-        this.breakTheRightWalls(x,y,direction);
-        break;
-    case "W":
-        if (x > 0)
-        this.breakTheRightWalls(x,y,direction);
-        break;
+    // don't break the edges
+    switch (direction) {
+      case "N":
+          if (y > 0)
+          this.breakTheRightWalls(x,y,direction);
+          break;
+      case "E":
+          if (x < totalCols - 1)
+          this.breakTheRightWalls(x,y,direction);
+          break;
+      case "S":
+          if (y < totalRows-1)
+          this.breakTheRightWalls(x,y,direction);
+          break;
+      case "W":
+          if (x > 0)
+          this.breakTheRightWalls(x,y,direction);
+          break;
 
-    default:
-        break;
+      default:
+          break;
+    }
+
+    console.log(["broke",x,y,direction]);
   }
   
 }
