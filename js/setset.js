@@ -29,13 +29,43 @@ class SetSet {
             newSet.add(a);
             newSet.add(b);
             this.sets.push(newSet);
+        } else if (aMatch != -1 && bMatch != -1){
+            
+                // we matched both
+                console.log("we matched both");
+
+                // return false if they're already in here
+                if (this.sets[aMatch].has(b) && this.sets[bMatch].has(a)){
+                    return false;
+                } else {
+                    
+                    // add non-matchers to new array of sets
+                    let newSets = [];
+                    this.sets.forEach((set,idx) => {
+                        if (idx != aMatch && idx != bMatch){
+                            newSets.push(set);
+                        }
+                    });
+        
+                    // now merge the sets
+                    let combinedSet = new Set();
+                    this.sets[aMatch].forEach(item => { combinedSet.add(item)});
+                    this.sets[bMatch].forEach(item => { combinedSet.add(item)});
+        
+                    newSets.push(combinedSet);
+                    this.sets = newSets;
+                }
+    
+
+                
+            
         } else if (aMatch != -1){
             // we only matched "a"
             console.log("we matched A");
-            console.log("Adding " + a + " to " + [...this.sets[aMatch]].join(" "));
             if (this.sets[aMatch].has(b)){
                 return false;
             } else {
+                console.log("Adding " + b + " to " + [...this.sets[aMatch]].join(" "));
                 this.sets[aMatch].add(b);
             }
         } else if (bMatch != -1){
@@ -44,27 +74,9 @@ class SetSet {
             if (this.sets[bMatch].has(a)){
                 return false;
             } else {
+                console.log("Adding " + a + " to " + [...this.sets[bMatch]].join(" "));
                 this.sets[bMatch].add(a);
             }
-        } else {
-            // we matched both
-            console.log("we matched both");
-
-            // add non-matchers to new array of sets
-            let newSets = [];
-            this.sets.forEach((set,idx) => {
-                if (idx != aMatch && idx != bMatch){
-                    newSets.push(set);
-                }
-            });
-
-            // now merge the sets
-            let combinedSet = newSet();
-            this.sets[aMatch].forEach(item => { combinedSet.add(item)});
-            this.sets[bMatch].forEach(item => { combinedSet.add(item)});
-
-            newSets.push(newSets);
-            this.sets = newSets;
         }
         return true;
     }

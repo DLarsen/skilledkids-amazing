@@ -2,7 +2,7 @@
 
 let cells = [];
 let totalRows = 10;
-let totalCols = 20;
+let totalCols = 10;
 
 const setset = new SetSet();
 
