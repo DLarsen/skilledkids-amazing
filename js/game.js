@@ -9,11 +9,12 @@ let cells = [
 
 function setup() {
   createCanvas(400, 400);
+  background(80);
 }
 
 function draw() {
   if (mouseIsPressed) {
-    fill(0);
+    fill(80);
   } else {
     fill(255);
   }
